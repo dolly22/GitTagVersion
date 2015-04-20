@@ -1,5 +1,7 @@
 ﻿using GitTagVersion.Core;
+using GitTagVersion.Core.Format;
 using GitTagVersion.Core.Git;
+using GitTagVersion.Core.Resolver;
 using GitTagVersion.Interfaces;
 using LibGit2Sharp;
 using System;
@@ -44,11 +46,11 @@ namespace GitTagVersion.Console
 
 			using (var repo = new Repository(repoPath))
 			{
-				var tagFinder = new DefaultVersionStrategy(repo);
+				var resolverStrategy = new DefaultResolverStrategy(repo);
 				var progress = new Progress<string>(System.Console.WriteLine);
 
-				var versionInfo = tagFinder.DetermineVersion(progress: progress);
-				var version = new DefaultVersionInfoFormatter().Format(versionInfo);
+				var resolvedVersion = resolverStrategy.DetermineVersion(progress: progress);
+				var version = new DefaultVersionFormatter().FormatVersion(resolvedVersion);
 
 				return version.ToString();
 			}

@@ -1,4 +1,5 @@
 ﻿using GitTagVersion.Core.Git;
+using GitTagVersion.Core.Resolver;
 using LibGit2Sharp;
 using NSemVersion;
 using System;
@@ -7,13 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GitTagVersion.Core
+namespace GitTagVersion.Core.Resolver
 {
-	public class DefaultVersionStrategy : IVersionStrategy
+	public class DefaultResolverStrategy : IResolverStrategy
 	{
 		readonly Repository repository;
 
-		public DefaultVersionStrategy(Repository repository)
+		public DefaultResolverStrategy(Repository repository)
 		{
 			if (repository == null)
 				throw new ArgumentNullException("repository");
@@ -21,7 +22,7 @@ namespace GitTagVersion.Core
 			this.repository = repository;
 		}
 
-		public VersionInfo DetermineVersion(string commitish = null, IProgress<string> progress = null)
+		public ResolvedVersionInfo DetermineVersion(string commitish = null, IProgress<string> progress = null)
 		{
 			var commit = repository.Head.Tip;
 			if (!String.IsNullOrWhiteSpace(commitish))
@@ -33,9 +34,9 @@ namespace GitTagVersion.Core
 			return GetVersionInfo(commit, progress);
 		}
 
-		private VersionInfo GetVersionInfo(Commit commit, IProgress<string> progress)
+		private ResolvedVersionInfo GetVersionInfo(Commit commit, IProgress<string> progress)
 		{
-			var versionInfo = new VersionInfo()
+			var versionInfo = new ResolvedVersionInfo()
 			{
 				Commit = commit
 			};
@@ -109,8 +110,9 @@ namespace GitTagVersion.Core
 					Since = commit,
 					SortBy = CommitSortStrategies.Topological
 				}).Count();
-
+				
 				versionInfo.SemVersion = new SemVersion(0, 1, 0);
+				versionInfo.SemVersionRevision = distanceToFirstRepoCommit;
 			}
 
 			return versionInfo;

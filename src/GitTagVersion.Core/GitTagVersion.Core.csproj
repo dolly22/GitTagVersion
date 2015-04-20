@@ -44,15 +44,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultVersionInfoFormatter.cs" />
+    <Compile Include="Format\DefaultVersionFormatter.cs" />
+    <Compile Include="Format\VersionInfo.cs" />
     <Compile Include="GitTagVersionInvoker.cs" />
     <Compile Include="Git\VersionBranchParser.cs" />
     <Compile Include="Git\VersionTagDistanceResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Git\VersionTagFinder.cs" />
-    <Compile Include="DefaultVersionStrategy.cs" />
-    <Compile Include="IVersionStrategy.cs" />
-    <Compile Include="VersionInfo.cs" />
+    <Compile Include="Resolver\DefaultResolverStrategy.cs" />
+    <Compile Include="Resolver\IResolverStrategy.cs" />
+    <Compile Include="Resolver\ResolvedVersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

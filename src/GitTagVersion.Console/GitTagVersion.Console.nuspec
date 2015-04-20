@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>GitTagVersion.Console</id>
+    <version>$version$</version>
+    <authors>Dolly</authors>
+    <owners>Dolly</owners>
+    <projectUrl>http://github.con/dolly22/gittagversion</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Semantic version generator based on git repository tags</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>semversion</tags>
+    <developmentDependency>true</developmentDependency>
+    <dependencies>  
+    </dependencies>    
+  </metadata>
+  <files>
+    <file src="bin\$configuration$\**\*.dll" target="tools" />
+    <file src="..\..\build\sake-dist\*.shade" target="tools/sake" />
+  </files>  
+</package>

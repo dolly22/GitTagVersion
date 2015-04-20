@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GitTagVersion.Core
+namespace GitTagVersion.Core.Resolver
 {
-	public class VersionInfo
+	public class ResolvedVersionInfo
 	{
 		/// <summary>
 		/// Commit

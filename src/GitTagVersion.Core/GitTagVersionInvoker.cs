@@ -1,4 +1,6 @@
-﻿using GitTagVersion.Interfaces;
+﻿using GitTagVersion.Core.Format;
+using GitTagVersion.Core.Resolver;
+using GitTagVersion.Interfaces;
 using LibGit2Sharp;
 using NSemVersion;
 using System;
@@ -17,12 +19,13 @@ namespace GitTagVersion.Core
 
 			using (var repo = new Repository(repoPath))
 			{
-				var tagFinder = new DefaultVersionStrategy(repo);
+				var versionResolver = new DefaultResolverStrategy(repo);
 				//var progress = new Progress<string>(System.Console.WriteLine);
 
-				var versionInfo = tagFinder.DetermineVersion(progress: null);
-				var formattedVersion = new DefaultVersionInfoFormatter().Format(versionInfo);
+				var resolvedVersion = versionResolver.DetermineVersion(progress: null);
+				var versionInfo = new DefaultVersionFormatter().FormatVersion(resolvedVersion);
 
+				//TODO: allow semversion formatting
 				var shortVersion = String.Format("{0}.{1}.{2}", versionInfo.SemVersion.Major, versionInfo.SemVersion.Minor, versionInfo.SemVersion.Patch);
 
 				var semVersionPreRelease = String.Format("{0}.{1}.{2}{3}",
@@ -31,7 +34,7 @@ namespace GitTagVersion.Core
 				var result = new Dictionary<string, string>() {
 					{ "ShortVersion", shortVersion },
 					{ "ShortSemVersion", semVersionPreRelease },
-					{ "FullSemVersion", formattedVersion.ToString() }
+					{ "FullSemVersion", versionInfo.SemVersion.ToString() }
 				};
 
 				return result;
