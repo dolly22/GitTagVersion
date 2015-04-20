@@ -1,0 +1,30 @@
+-// build GitTagVersion tool for versioning
+build projectFile='./src/GitTagVersion.Console/GitTagVersion.Console.csproj' configuration='Debug'
+
+use import="GitTagVersion"
+@{
+	var versionInfo=GitTagVersion(toolDirectory: "./src/GitTagVersion.Console/bin/debug");
+	var VERSION = versionInfo["ShortVersion"];
+	var FULL_VERSION = versionInfo["ShortSemVersion"];
+	var FULL_SEMVERSION = versionInfo["FullSemVersion"];
+}
+
+use-standard-lifecycle
+
+use namespace="System"
+use namespace="System.IO"
+use import="Files"
+
+default SRC='.'
+default ASSEMBLYINFO_FILES='${Files.Include(SRC+"/**/AssemblyInfo.cs")}'
+default BUILD_SOLUTIONS='${Files.Include(SRC+"/*.sln")}'
+
+#assemblyinfo-initialize target='initialize' if='ASSEMBLYINFO_FILES != null'
+  assemblyinfo each='var updateFile in ASSEMBLYINFO_FILES' assemblyVersion='${VERSION}' assemblyInformationalVersion='${FULL_SEMVERSION}'
+
+#build-compile target='compile' description='Compile primary solution'
+  for each='var projectFile in BUILD_SOLUTIONS' 
+    build configuration='Release'
+
+#nuget-package target='package' description='Create NuGet packages'
+  exec-clr program='.nuget/nuget.exe' commandline='pack ./src/GitTagVersion.Console/GitTagVersion.Console.csproj -Tool -Version "0.1.0-pre-5" -Properties "configuration=Release"'

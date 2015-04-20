@@ -25,8 +25,8 @@ namespace GitTagVersion.Core.Format
 
 				if (versionInfo.SemVersion.IsPreRelease)
 				{
-					// apeend revision to prerelease
-					preRelease = versionInfo.SemVersion.PreRelease.ToString() + "-rev." + (versionInfo.SemVersionRevision + 1);
+					// append revision to prerelease
+					preRelease = versionInfo.SemVersion.PreRelease.ToString() + "." + (versionInfo.SemVersionRevision + 1);
 				}
 				else
 				{

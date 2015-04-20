@@ -111,7 +111,7 @@ namespace GitTagVersion.Core.Resolver
 					SortBy = CommitSortStrategies.Topological
 				}).Count();
 				
-				versionInfo.SemVersion = new SemVersion(0, 1, 0);
+				versionInfo.SemVersion = new SemVersion("0.1.0-pre");
 				versionInfo.SemVersionRevision = distanceToFirstRepoCommit;
 			}
 

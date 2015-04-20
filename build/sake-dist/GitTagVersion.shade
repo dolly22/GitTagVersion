@@ -3,14 +3,28 @@ use namespace="System.Reflection"
 
 functions
   @{   
+	const string GitTagAssembly		= "GitTagVersion.Interfaces.dll";
 	const string GitTagCallerType   = "GitTagVersion.Interfaces.IsolatedAppDomainInvoker";
 	const string GitTagCallerMethod = "RunGitTagVersion";
   
-	public IDictionary<string,string> GitTagVersion(bool showResults = false)
+	public IDictionary<string,string> GitTagVersion(string toolDirectory = null, bool showResults = false)
 	{
 		Log.Info("running GitTagVersion...");
-		var toolFile = Files.Include("packages/gittagversion.*/**/GitTagVersion.Interfaces.dll").FirstOrDefault();
-		var versionInfo = InvokeGitTagVersion(toolFile.ToString());
+
+		string toolFile = null;
+		if (toolDirectory != null)
+		{
+			toolFile = Path.Combine(toolDirectory, GitTagAssembly);
+		}
+		else
+		{
+			var toolFileRef = Files.Include("packages/gittagversion.*/**/"+ GitTagAssembly).FirstOrDefault();
+			if (toolFileRef == null)
+				throw new Exception("GitTagVersion tool not found");
+
+			toolFile = toolFileRef.ToString();
+		}		
+		var versionInfo = InvokeGitTagVersion(toolFile);
 
 		if (showResults)
 		{
