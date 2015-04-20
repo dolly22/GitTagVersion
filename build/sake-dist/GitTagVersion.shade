@@ -1,0 +1,42 @@
+use namespace="System"
+use namespace="System.Reflection"
+
+functions
+  @{   
+	const string GitTagCallerType   = "GitTagVersion.Interfaces.IsolatedAppDomainInvoker";
+	const string GitTagCallerMethod = "RunGitTagVersion";
+  
+	public IDictionary<string,string> GitTagVersion(bool showResults = false)
+	{
+		Log.Info("running GitTagVersion...");
+		var toolFile = Files.Include("packages/gittagversion.*/**/GitTagVersion.Interfaces.dll").FirstOrDefault();
+		var versionInfo = InvokeGitTagVersion(toolFile.ToString());
+
+		if (showResults)
+		{
+			foreach(var kvp in versionInfo)
+			{
+				Log.Info(String.Format("  {0}: {1}", kvp.Key, kvp.Value));
+			}
+		}
+		return versionInfo;
+	}
+
+	// main Invoke method
+	public IDictionary<string, string> InvokeGitTagVersion(string assemblyFile, bool verbose = false)
+	{    
+		// load remoting assembly
+		var assembly = Assembly.LoadFrom(assemblyFile);
+		if (assembly == null)
+		  throw new InvalidOperationException("Unable to load GitTagVersion invoker assembly");
+			
+		// reflect caller type and method
+		var callerMethod = assembly
+		  .GetType(GitTagCallerType)
+		  .GetMethod(GitTagCallerMethod, BindingFlags.Static | BindingFlags.Public);  
+		if (callerMethod == null)
+		  throw new InvalidOperationException("Unable to find caller method");
+
+		return (IDictionary<string,string>)callerMethod.Invoke(null, new object[] { verbose });          
+	}      
+ }

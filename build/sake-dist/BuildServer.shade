@@ -1,0 +1,23 @@
+use namespace="System"
+
+functions
+  @{   
+    _BuildServer BuildServer {get {return new _BuildServer(Log);}}  
+      
+    class _BuildServer
+    {
+        Sake.Engine.Logging.ILog Log {get;set;}    
+        
+        public _BuildServer(Sake.Engine.Logging.ILog log)
+        {
+            Log = log;
+            
+            this.IsMyGet = String.Equals(Environment.GetEnvironmentVariable("BuildRunner"), "MyGet", StringComparison.InvariantCultureIgnoreCase);
+            this.IsAppVeyor = String.Equals(Environment.GetEnvironmentVariable("APPVEYOR"), "True", StringComparison.InvariantCultureIgnoreCase);
+        }
+    
+        public bool IsMyGet { get; private set; }
+        
+        public bool IsAppVeyor { get; private set; }
+    }   
+ }
