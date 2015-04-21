@@ -27,4 +27,4 @@ default BUILD_SOLUTIONS='${Files.Include(SRC+"/*.sln")}'
     build configuration='Release'
 
 #nuget-package target='package' description='Create NuGet packages'
-  exec-clr program='.nuget/nuget.exe' commandline='pack ./src/GitTagVersion.Console/GitTagVersion.Console.csproj -Tool -Version "0.1.0-pre-5" -Properties "configuration=Release"'
+  exec-clr program='.nuget/nuget.exe' commandline='pack ./src/GitTagVersion.Console/GitTagVersion.Console.csproj -Tool -Version "${VERSION}" -Properties "configuration=Release"'
