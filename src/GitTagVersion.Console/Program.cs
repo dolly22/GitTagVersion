@@ -2,7 +2,6 @@
 using GitTagVersion.Core.Format;
 using GitTagVersion.Core.Git;
 using GitTagVersion.Core.Resolver;
-using GitTagVersion.Interfaces;
 using LibGit2Sharp;
 using System;
 using System.Collections.Generic;
@@ -50,7 +49,7 @@ namespace GitTagVersion.Console
 				var progress = new Progress<string>(System.Console.WriteLine);
 
 				var resolvedVersion = resolverStrategy.DetermineVersion(progress: progress);
-				var version = new DefaultVersionFormatter().FormatVersion(resolvedVersion);
+				var version = new DefaultVersionFormatter().GetFormattedVersion(resolvedVersion);
 
 				return version.ToString();
 			}

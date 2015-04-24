@@ -3,9 +3,9 @@ use namespace="System.Reflection"
 
 functions
   @{   
-	const string GitTagAssembly		= "GitTagVersion.Interfaces.dll";
-	const string GitTagCallerType   = "GitTagVersion.Interfaces.IsolatedAppDomainInvoker";
-	const string GitTagCallerMethod = "RunGitTagVersion";
+	const string GitTagAssembly		= "GitTagVersion.Loader.dll";
+	const string GitTagCallerType   = "GitTagVersion.Loader.IsolatedAppDomainLoader";
+	const string GitTagCallerMethod = "Run";
   
 	public IDictionary<string,string> GitTagVersion(string toolDirectory = null, bool showResults = false)
 	{
@@ -37,7 +37,7 @@ functions
 	}
 
 	// main Invoke method
-	public IDictionary<string, string> InvokeGitTagVersion(string assemblyFile, bool verbose = false)
+	private IDictionary<string, string> InvokeGitTagVersion(string assemblyFile, bool verbose = false)
 	{    
 		// load remoting assembly
 		var assembly = Assembly.LoadFrom(assemblyFile);

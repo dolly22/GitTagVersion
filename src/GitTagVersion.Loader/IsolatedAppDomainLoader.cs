@@ -6,16 +6,16 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GitTagVersion.Interfaces
+namespace GitTagVersion.Loader
 {
-	public class IsolatedAppDomainInvoker
+	public class IsolatedAppDomainLoader
 	{
 		const string AssemblyName = "GitTagVersion.Core";
 		const string GitTagVersionMarshallType = "GitTagVersion.Core.GitTagVersionInvoker";
 
-		public static IDictionary<string, string> RunGitTagVersion(bool verbose)
+		public static IDictionary<string, string> Run(bool verbose)
 		{
-			var loadDirectory = new Uri(typeof(IsolatedAppDomainInvoker).Assembly.CodeBase).LocalPath;
+			var loadDirectory = new Uri(typeof(IsolatedAppDomainLoader).Assembly.CodeBase).LocalPath;
 
 			// get base path
 			var appBasePath = Path.GetDirectoryName(loadDirectory);
@@ -30,10 +30,10 @@ namespace GitTagVersion.Interfaces
 				};
 
 				// create new app domain
-				var domain = AppDomain.CreateDomain("GitTagVersionInvoker", AppDomain.CurrentDomain.Evidence, domainSetup);
+				var domain = AppDomain.CreateDomain("GitTagVersion", AppDomain.CurrentDomain.Evidence, domainSetup);
 				try
 				{
-					var invoker = (IGitTagVersion)domain.CreateInstanceAndUnwrap(AssemblyName, GitTagVersionMarshallType);
+					var invoker = (IGitTagVersionInvoker)domain.CreateInstanceAndUnwrap(AssemblyName, GitTagVersionMarshallType);
 					return invoker.GetVersion();
 				}
 				finally

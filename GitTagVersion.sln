@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitTagVersion.Core.Test", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSemVersion", "..\NSemVersion\src\NSemVersion\NSemVersion.csproj", "{96FBA148-7952-433A-855A-59142D0E942E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitTagVersion.Interfaces", "src\GitTagVersion.Interfaces\GitTagVersion.Interfaces.csproj", "{F6C065F9-DCF3-49A9-BFA1-1F369486BF47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitTagVersion.Loader", "src\GitTagVersion.Loader\GitTagVersion.Loader.csproj", "{F6C065F9-DCF3-49A9-BFA1-1F369486BF47}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicIsolatedCall", "sample\DynamicIsolatedCall\DynamicIsolatedCall.csproj", "{7039A790-C88D-4E3F-8891-8AF868AC2452}"
 EndProject

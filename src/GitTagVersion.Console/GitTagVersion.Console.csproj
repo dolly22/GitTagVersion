@@ -65,7 +65,7 @@
       <Project>{611e034c-6109-4e16-b34d-8225dc73fdcc}</Project>
       <Name>GitTagVersion.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GitTagVersion.Interfaces\GitTagVersion.Interfaces.csproj">
+    <ProjectReference Include="..\GitTagVersion.Loader\GitTagVersion.Loader.csproj">
       <Project>{f6c065f9-dcf3-49a9-bfa1-1f369486bf47}</Project>
       <Name>GitTagVersion.Interfaces</Name>
     </ProjectReference>

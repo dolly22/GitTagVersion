@@ -4,9 +4,8 @@ build projectFile='./src/GitTagVersion.Console/GitTagVersion.Console.csproj' con
 use import="GitTagVersion"
 @{
 	var versionInfo=GitTagVersion(toolDirectory: "./src/GitTagVersion.Console/bin/debug");
-	var VERSION = versionInfo["ShortVersion"];
-	var FULL_VERSION = versionInfo["ShortSemVersion"];
-	var FULL_SEMVERSION = versionInfo["FullSemVersion"];
+	var VERSION = versionInfo["AssemblyVersion"];
+	var FULL_VERSION = versionInfo["VersionWithPreReleaseV1"];
 }
 
 use-standard-lifecycle
@@ -20,11 +19,11 @@ default ASSEMBLYINFO_FILES='${Files.Include(SRC+"/**/AssemblyInfo.cs")}'
 default BUILD_SOLUTIONS='${Files.Include(SRC+"/*.sln")}'
 
 #assemblyinfo-initialize target='initialize' if='ASSEMBLYINFO_FILES != null'
-  assemblyinfo each='var updateFile in ASSEMBLYINFO_FILES' assemblyVersion='${VERSION}' assemblyInformationalVersion='${FULL_SEMVERSION}'
+  assemblyinfo each='var updateFile in ASSEMBLYINFO_FILES' assemblyVersion='${VERSION}' assemblyFileVersion='${versionInfo["FileVersion"]}' assemblyInformationalVersion='${versionInfo["FullVersion"]}'
 
 #build-compile target='compile' description='Compile primary solution'
   for each='var projectFile in BUILD_SOLUTIONS' 
     build configuration='Release'
 
 #nuget-package target='package' description='Create NuGet packages'
-  exec-clr program='.nuget/nuget.exe' commandline='pack ./src/GitTagVersion.Console/GitTagVersion.Console.csproj -Tool -Version "${VERSION}" -Properties "configuration=Release"'
+  exec-clr program='.nuget/nuget.exe' commandline='pack ./src/GitTagVersion.Console/GitTagVersion.Console.csproj -Tool -Version "${FULL_VERSION}" -Properties "configuration=Release"'

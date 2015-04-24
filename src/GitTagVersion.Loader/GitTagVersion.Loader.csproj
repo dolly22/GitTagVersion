@@ -7,8 +7,8 @@
     <ProjectGuid>{F6C065F9-DCF3-49A9-BFA1-1F369486BF47}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GitTagVersion.Interfaces</RootNamespace>
-    <AssemblyName>GitTagVersion.Interfaces</AssemblyName>
+    <RootNamespace>GitTagVersion.Loader</RootNamespace>
+    <AssemblyName>GitTagVersion.Loader</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,8 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IGitTagVersion.cs" />
-    <Compile Include="IsolatedAppDomainInvoker.cs" />
+    <Compile Include="IGitTagVersionInvoker.cs" />
+    <Compile Include="IsolatedAppDomainLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

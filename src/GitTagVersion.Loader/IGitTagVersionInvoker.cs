@@ -6,9 +6,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GitTagVersion.Interfaces
+namespace GitTagVersion.Loader
 {
-	public interface IGitTagVersion
+	public interface IGitTagVersionInvoker
 	{
 		IDictionary<string, string> GetVersion(string discoverPath = ".");
 	}
