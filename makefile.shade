@@ -15,7 +15,7 @@ use namespace="System.IO"
 use import="Files"
 
 default SRC='.'
-default ASSEMBLYINFO_FILES='${Files.Include(SRC+"/**/AssemblyInfo.cs")}'
+default ASSEMBLYINFO_FILES='${Files.Include(SRC+"/**/CommonAssemblyInfo.cs")}'
 default BUILD_SOLUTIONS='${Files.Include(SRC+"/*.sln")}'
 
 #assemblyinfo-initialize target='initialize' if='ASSEMBLYINFO_FILES != null'
