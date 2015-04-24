@@ -46,15 +46,10 @@ namespace GitTagVersion.Core.Format
 		{
 			string preRelease = null;
 
-			if (versionInfo.SemVersionRevision > 0)
+			if (versionInfo.SemVersion.IsPreRelease)
 			{
-				var revision = versionInfo.SemVersionRevision;
-
-				if (versionInfo.SemVersion.IsPreRelease)
-				{
-					// append revision to prerelease
-					preRelease = String.Format("{0}-{1:D4}", versionInfo.SemVersion.PreRelease, revision);
-				}
+				// append revision to prerelease
+				preRelease = String.Format("{0}-{1:D4}", versionInfo.SemVersion.PreRelease, versionInfo.SemVersionRevision);
 			}
 
 			var fullSemVersion = new SemVersion(
@@ -72,19 +67,14 @@ namespace GitTagVersion.Core.Format
 			var metadata = new List<string>();
 
 			// add version revision
-			if (versionInfo.SemVersionRevision > 0)
+			if (versionInfo.SemVersion.IsPreRelease)
 			{
-				var revision = versionInfo.SemVersionRevision;
-
-				if (versionInfo.SemVersion.IsPreRelease)
-				{
-					// append revision to prerelease
-					preRelease = versionInfo.SemVersion.PreRelease.ToString() + "." + revision;
-				}
-				else
-				{
-					metadata.Add(revision.ToString());
-				}
+				// append revision to prerelease
+				preRelease = versionInfo.SemVersion.PreRelease.ToString() + "." + versionInfo.SemVersionRevision;
+			}
+			else
+			{
+				metadata.Add(versionInfo.SemVersionRevision.ToString());
 			}
 
 			// add metadata

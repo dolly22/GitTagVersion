@@ -14,9 +14,15 @@ use namespace="System"
 use namespace="System.IO"
 use import="Files"
 
+default BASE_DIR='${Directory.GetCurrentDirectory()}'
+default TARGET_DIR='${Path.Combine(BASE_DIR, "target")}'
+
 default SRC='.'
 default ASSEMBLYINFO_FILES='${Files.Include(SRC+"/**/CommonAssemblyInfo.cs")}'
 default BUILD_SOLUTIONS='${Files.Include(SRC+"/*.sln")}'
+
+#target-dir-clean target="clean"
+  directory delete="${TARGET_DIR}"
 
 #assemblyinfo-initialize target='initialize' if='ASSEMBLYINFO_FILES != null'
   assemblyinfo each='var updateFile in ASSEMBLYINFO_FILES' assemblyVersion='${VERSION}' assemblyFileVersion='${versionInfo["FileVersion"]}' assemblyInformationalVersion='${versionInfo["FullVersion"]}'
@@ -26,4 +32,5 @@ default BUILD_SOLUTIONS='${Files.Include(SRC+"/*.sln")}'
     build configuration='Release'
 
 #nuget-package target='package' description='Create NuGet packages'
-  exec-clr program='.nuget/nuget.exe' commandline='pack ./src/GitTagVersion.Console/GitTagVersion.Console.csproj -Tool -Version "${FULL_VERSION}" -Properties "configuration=Release"'
+  directory create="${TARGET_DIR}"
+  exec-clr program='.nuget/nuget.exe' commandline='pack ./src/GitTagVersion.Console/GitTagVersion.Console.csproj -Tool -Version "${FULL_VERSION}" -Properties "configuration=Release" -OutputDirectory "${TARGET_DIR}"'
