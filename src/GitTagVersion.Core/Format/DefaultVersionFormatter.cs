@@ -85,25 +85,17 @@ namespace GitTagVersion.Core.Format
 			metadata.Add(versionInfo.Commit.Committer.When.ToString("yyyyMMdd"));
 			metadata.Add(versionInfo.Commit.Sha.Substring(0, 7));
 
-			var fullSemVersion = new SemVersion(
+			var version = new SemVersion(
 				versionInfo.SemVersion.Major,
 				versionInfo.SemVersion.Minor,
 				versionInfo.SemVersion.Patch,
 				preRelease != null ? new PreReleasePart(preRelease) : null,
 				new BuildMetadataPart(metadata));
 
-			// add formats
-			AddFormattedVersion(dict, FormatKey.FullVersion, fullSemVersion.ToString());
-
-			//TODO: use formatting
-			var shortVersion = String.Format("{0}.{1}.{2}", versionInfo.SemVersion.Major, versionInfo.SemVersion.Minor, versionInfo.SemVersion.Patch);
-
-			AddFormattedVersion(dict, FormatKey.VersionOnly, shortVersion.ToString());
-
-			var semVersionPreRelease = String.Format("{0}.{1}.{2}{3}",
-				versionInfo.SemVersion.Major, versionInfo.SemVersion.Minor, versionInfo.SemVersion.Patch, versionInfo.SemVersion.PreRelease.FormatPart());
-
-			AddFormattedVersion(dict, FormatKey.VersionWithPreRelease, semVersionPreRelease.ToString());
+			// add formatted versions
+			AddFormattedVersion(dict, FormatKey.FullVersion, version.ToString("F"));
+			AddFormattedVersion(dict, FormatKey.VersionOnly, version.ToString("V"));
+			AddFormattedVersion(dict, FormatKey.VersionWithPreRelease, version.ToString("P"));
 		}
 
 		private void AddClassicVersion(ResolvedVersionInfo versionInfo, IDictionary<string, string> dict)

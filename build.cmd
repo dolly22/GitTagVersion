@@ -16,6 +16,6 @@ copy %CACHED_NUGET% .nuget\nuget.exe > nul
 
 :restore
 echo Restoring nuget packages...
-.nuget\NuGet.exe restore .nuget\packages.config -SolutionDirectory . -NonInteractive
+.nuget\NuGet.exe restore -NonInteractive
 
 packages\sake.0.2\tools\sake.exe -I build/sake -I build/sake-dist -f makefile.shade %*
