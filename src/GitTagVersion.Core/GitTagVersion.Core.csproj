@@ -44,8 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Format\DefaultVersionFormatter.cs" />
-    <Compile Include="Format\VersionInfo.cs" />
+    <Compile Include="Format\SemVer2Formatter.cs" />
+    <Compile Include="Format\SemVer1Formatter.cs" />
+    <Compile Include="Format\CodeVersionFormatter.cs" />
+    <Compile Include="Format\IVersionFormatter.cs" />
+    <Compile Include="Format\BuildNumberFormatter.cs" />
+    <Compile Include="Format\ResolvedPartsFormatter.cs" />
     <Compile Include="GitTagVersionInvoker.cs" />
     <Compile Include="Git\VersionBranchParser.cs" />
     <Compile Include="Git\VersionTagDistanceResolver.cs" />

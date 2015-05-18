@@ -30,7 +30,6 @@ namespace GitTagVersion.Console
 				System.Console.Error.WriteLine("Error: {0}", ex.Message);
 				return -1;
 			}
-
 		}
 
 		public static string GetVersion(string[] args = null)
@@ -42,17 +41,10 @@ namespace GitTagVersion.Console
 			var repoPath = Repository.Discover(discoverPath);
 			System.Console.WriteLine("Using repository: {0}", repoPath);
 
+            var invoker = new GitTagVersionInvoker();
+            var versions = invoker.GetVersion(repoPath, new Progress<string>(System.Console.WriteLine));
 
-			using (var repo = new Repository(repoPath))
-			{
-				var resolverStrategy = new DefaultResolverStrategy(repo);
-				var progress = new Progress<string>(System.Console.WriteLine);
-
-				var resolvedVersion = resolverStrategy.DetermineVersion(progress: progress);
-				var version = new DefaultVersionFormatter().GetFormattedVersion(resolvedVersion);
-
-				return version.ToString();
-			}
+            return versions[invoker.FormatKey(SemVer2Formatter.FormatPrefix, SemVer2Formatter.FullVersion)];
 		}
 	}
 }

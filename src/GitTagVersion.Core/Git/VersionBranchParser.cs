@@ -11,7 +11,7 @@ namespace GitTagVersion.Core.Git
     public class VersionBranchParser
     {
         private static readonly Regex DefaultVersionRegex 
-            = new Regex(@"^v(?<version>\d+\.\d+(?:\.\d+))?\-master$", RegexOptions.Singleline);
+            = new Regex(@"^v?(?<version>\d+\.\d+(?:\.\d+))?\-master$", RegexOptions.Singleline);
 
         public VersionBranchParser(Repository repository)
         {

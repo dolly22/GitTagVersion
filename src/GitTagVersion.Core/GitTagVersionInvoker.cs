@@ -13,20 +13,41 @@ namespace GitTagVersion.Core
 {
 	public class GitTagVersionInvoker : MarshalByRefObject, IGitTagVersionInvoker
 	{
-		public IDictionary<string, string> GetVersion(string discoverPath = ".")
+        readonly IVersionFormatter[] formatters = new IVersionFormatter[]
+        {
+            new ResolvedPartsFormatter(),
+            new BuildNumberFormatter(),
+            new CodeVersionFormatter(),
+            new SemVer1Formatter(),
+            new SemVer2Formatter()
+        };
+
+		public IDictionary<string, string> GetVersion(string discoverPath = ".", IProgress<string> progress = null)
 		{
 			var repoPath = Repository.Discover(discoverPath);
 
 			using (var repo = new Repository(repoPath))
 			{
-				var versionResolver = new DefaultResolverStrategy(repo);
-				//var progress = new Progress<string>(System.Console.WriteLine);
+				var versionResolver = new DefaultResolverStrategy(repo);				
+				var resolvedVersion = versionResolver.DetermineVersion(progress: progress);
 
-				var resolvedVersion = versionResolver.DetermineVersion(progress: null);
-				var formatter = new DefaultVersionFormatter();
+                var results = new Dictionary<string, string>();
+                foreach (var format in formatters)
+                {
+                    var prefix = format.Prefix;
+                    foreach (var result in format.Format(resolvedVersion))
+                    {
+                        results.Add(FormatKey(prefix, result.Key), result.Value);
+                    }   
+                }
 
-				return formatter.GetFormattedVersion(resolvedVersion);
-			}
+                return results;
+            }
 		}
+
+        public string FormatKey(string prefix, string key)
+        {
+            return String.Format("{0}.{1}", prefix, key); ;
+        }
 	}  
 }

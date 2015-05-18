@@ -10,6 +10,6 @@ namespace GitTagVersion.Loader
 {
 	public interface IGitTagVersionInvoker
 	{
-		IDictionary<string, string> GetVersion(string discoverPath = ".");
+		IDictionary<string, string> GetVersion(string discoverPath = ".", IProgress<string> progress = null);
 	}
 }
