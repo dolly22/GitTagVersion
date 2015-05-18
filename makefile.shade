@@ -4,8 +4,8 @@ build projectFile='./src/GitTagVersion.Console/GitTagVersion.Console.csproj' con
 use import="GitTagVersion"
 @{
 	var versionInfo=GitTagVersion(toolDirectory: "./src/GitTagVersion.Console/bin/debug");
-	var VERSION = versionInfo["AssemblyVersion"];
-	var FULL_VERSION = versionInfo["VersionWithPreReleaseV1"];
+	var VERSION = versionInfo["Code.AssemblyVersion"];
+	var FULL_VERSION = versionInfo["SemVer1.VersionWithPreRelease"];
 }
 
 use-standard-lifecycle
@@ -25,7 +25,7 @@ default BUILD_SOLUTIONS='${Files.Include(SRC+"/*.sln")}'
   directory delete="${TARGET_DIR}"
 
 #assemblyinfo-initialize target='initialize' if='ASSEMBLYINFO_FILES != null'
-  assemblyinfo each='var updateFile in ASSEMBLYINFO_FILES' assemblyVersion='${VERSION}' assemblyFileVersion='${versionInfo["FileVersion"]}' assemblyInformationalVersion='${versionInfo["FullVersion"]}'
+  assemblyinfo each='var updateFile in ASSEMBLYINFO_FILES' assemblyVersion='${VERSION}' assemblyFileVersion='${versionInfo["Code.FileVersion"]}' assemblyInformationalVersion='${versionInfo["SemVer2.FullVersion"]}'
 
 #build-compile target='compile' description='Compile primary solution'
   for each='var projectFile in BUILD_SOLUTIONS' 
